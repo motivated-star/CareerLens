@@ -7,7 +7,7 @@ export default function ResultsSection({ results }) {
 
   useEffect(() => {
     if (chartRef.current) {
-      const percentage = results.matchPercentage
+      const percentage = results.coverage_percentage
       const circumference = 2 * Math.PI * 45
       const offset = circumference - (percentage / 100) * circumference
 
@@ -45,7 +45,7 @@ export default function ResultsSection({ results }) {
               transform="rotate(-90 50 50)"
             />
             <text x="50" y="55" textAnchor="middle" fontSize="20" fontWeight="bold" fill="rgb(10, 92, 143)">
-              {results.matchPercentage}%
+              {results.coverage_percentage}%
             </text>
           </svg>
           <p className="match-text">Match Score</p>
@@ -55,7 +55,7 @@ export default function ResultsSection({ results }) {
           <div className="matched-skills">
             <h3>Matched Skills</h3>
             <ul className="skills-list matched">
-              {results.matchedSkills.map((skill, index) => (
+              {results.matching_skills.map((skill, index) => (
                 <li key={`matched-${index}`} className="skill-item matched">
                   {skill}
                 </li>
@@ -66,7 +66,7 @@ export default function ResultsSection({ results }) {
           <div className="missing-skills">
             <h3>Missing Skills</h3>
             <ul className="skills-list missing">
-              {results.missingSkills.map((skill, index) => (
+              {results.missing_skills.map((skill, index) => (
                 <li key={`missing-${index}`} className="skill-item missing">
                   {skill}
                 </li>

@@ -10,25 +10,27 @@ export default function Home() {
   const [analyzing, setAnalyzing] = useState(false)
   const [results, setResults] = useState(null)
 
-  const handleUploadComplete = () => {
+  const handleUploadComplete = (data) => {
     setUploadComplete(true)
     setAnalyzing(true)
 
     // Simulate analysis process
-    setTimeout(() => {
-      setAnalyzing(false)
-      setResults({
-        matchPercentage: 78,
-        matchedSkills: ["React", "JavaScript", "CSS", "HTML", "API Integration"],
-        missingSkills: ["TypeScript", "Node.js", "AWS"],
-        suggestions: [
-          "Add experience with TypeScript to your resume",
-          "Highlight any Node.js projects you've worked on",
-          "Include any cloud experience, especially AWS",
-          "Quantify your achievements with metrics",
-        ],
-      })
-    }, 3000)
+    // setTimeout(() => {
+    //   setAnalyzing(false)
+    //   setResults({
+    //     matchPercentage: 78,
+    //     matchedSkills: ["React", "JavaScript", "CSS", "HTML", "API Integration"],
+    //     missingSkills: ["TypeScript", "Node.js", "AWS"],
+    //     suggestions: [
+    //       "Add experience with TypeScript to your resume",
+    //       "Highlight any Node.js projects you've worked on",
+    //       "Include any cloud experience, especially AWS",
+    //       "Quantify your achievements with metrics",
+    //     ],
+    //   })
+    // }, 3000)
+    setResults(data)
+    setAnalyzing(false)
   }
 
   return (
@@ -47,7 +49,7 @@ export default function Home() {
         {results && !analyzing && (
           <>
             <ResultsSection results={results} />
-            <SuggestionsSection suggestions={results.suggestions} />
+            {/* <SuggestionsSection suggestions={results.suggested_bullets} /> */}
           </>
         )}
       </main>

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useRef } from "react"
 import "../globals.css"
 
-export default function SuggestionsSection({ suggestions }) {
+export default function SuggestionsSection({ suggested_bullets }) {
   const sectionRef = useRef(null)
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function SuggestionsSection({ suggestions }) {
 
       <div className="suggestions-container">
         <div className="suggestions-list">
-          {suggestions.map((suggestion, index) => (
+          {suggested_bullets.map((suggestion, index) => (
             <div key={index} className="suggestion-item" style={{ animationDelay: `${index * 0.2}s` }}>
               <div className="suggestion-number">{index + 1}</div>
               <p className="suggestion-text">{suggestion}</p>

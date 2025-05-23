@@ -34,7 +34,7 @@ const handleSubmit = async (e) => {
       })
 
       console.log("Server response:", response.data)
-      onUploadComplete()
+      onUploadComplete(response.data)
     } catch (error) {
       console.error("Upload failed:", error)
     }
