@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react"
 import "../globals.css"
+import axios from "axios"
 
 export default function UploadSection({ onUploadComplete, uploadComplete }) {
   const [resumeFile, setResumeFile] = useState(null)
@@ -17,12 +18,28 @@ export default function UploadSection({ onUploadComplete, uploadComplete }) {
     setJobLink(e.target.value)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (resumeFile && jobLink) {
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  if (resumeFile && jobLink) {
+    const formData = new FormData()
+    formData.append("resume", resumeFile)
+    formData.append("jobLink", jobLink)
+
+    try {
+      const response = await axios.post("http://localhost:5001/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+
+      console.log("Server response:", response.data)
       onUploadComplete()
+    } catch (error) {
+      console.error("Upload failed:", error)
     }
   }
+}
 
   const handleDragOver = (e) => {
     e.preventDefault()
