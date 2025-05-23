@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    lowercase: true, // ensures emails are stored in lowercase
+    lowercase: true,
     match: [
       /^\w+([\.+-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
       'Please fill a valid email address',
@@ -17,8 +17,18 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
-  }
+    required: function () {
+      // Password is required only if googleId is not present
+      return !this.googleId;
+    },
+  },
+  googleId: {
+    type: String,
+    required: function () {
+      // googleId is required only if password is not present
+      return !this.password;
+    },
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);
