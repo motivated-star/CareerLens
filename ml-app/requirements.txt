@@ -5,3 +5,8 @@ requests
 beautifulsoup4
 spacy
 scikit-learn
+fastapi
+uvicorn
+transformers
+torch
+python-multipart
