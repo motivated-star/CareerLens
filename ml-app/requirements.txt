@@ -1,0 +1,7 @@
+PyMuPDF
+python-docx
+nltk
+requests
+beautifulsoup4
+spacy
+scikit-learn
