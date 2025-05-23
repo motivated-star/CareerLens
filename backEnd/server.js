@@ -7,17 +7,18 @@ const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
 
+// Load environment variables if you want (optional)
+dotenv.config();
+
 const app = express();
 
 app.use(cors({ origin: `${process.env.FRONTEND_URL}`, credentials: true }));
-
+console.log(process.env.FRONTEND_URL);
 // Import routes
 const userRoutes = require('./routes/user.js');
 const uploadRoutes = require('./routes/upload.js');
 const authRoutes = require('./routes/oauth.js');
 
-// Load environment variables if you want (optional)
-// dotenv.config();
 
 const port = process.env.PORT || 5001;
 
