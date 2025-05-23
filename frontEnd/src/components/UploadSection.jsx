@@ -27,7 +27,7 @@ const handleSubmit = async (e) => {
     formData.append("jobLink", jobLink)
 
     try {
-      const response = await axios.post(`${process.env.BACKEND_URL}/api/upload`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
