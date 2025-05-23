@@ -9,7 +9,7 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: '${process.env.FRONTEND_URL}', credentials: true }));
 
 // Import routes
 const userRoutes = require('./routes/user.js');

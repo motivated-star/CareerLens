@@ -9,7 +9,7 @@ router.get('/google',
 );
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/', successRedirect: 'http://localhost:5173/home' }),
+  passport.authenticate('google', { failureRedirect: '/', successRedirect: '${process.env.FRONTEND_URL}/home' }),
   oauthSuccess
 );
 
