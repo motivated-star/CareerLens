@@ -1,7 +1,7 @@
 import { useState } from "react"
 import UploadSection from "../components/UploadSection"
 import ResultsSection from "../components/ResultsSection"
-import SuggestionsSection from "../components/SuggestionsSection"
+// import SuggestionsSection from "../components/SuggestionsSection"
 
 interface Results {
   coverage_percentage: number
