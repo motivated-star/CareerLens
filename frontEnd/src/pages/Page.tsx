@@ -1,12 +1,12 @@
 import { useState } from "react"
 import UploadSection from "../components/UploadSection"
 import ResultsSection from "../components/ResultsSection"
-// import SuggestionsSection from "../components/SuggestionsSection"
+import SuggestionsSection from "../components/SuggestionsSection"
 
 interface Results {
-  coverage_percentage: number
-  matching_skills: string[]
+  match_score: number
   missing_skills: string[]
+  suggestions: string[]
 }
 
 export default function HomePage() {
@@ -37,6 +37,8 @@ export default function HomePage() {
     setAnalyzing(false)
   }
 
+  console.log("Results:", results);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <main className="container mx-auto px-4 py-8 max-w-6xl">
@@ -58,7 +60,7 @@ export default function HomePage() {
         {results && !analyzing && (
           <div className="space-y-8 animate-in fade-in duration-500">
             <ResultsSection results={results} />
-            {/* {results.suggested_bullets && <SuggestionsSection suggestions={results.suggested_bullets} />} */}
+            {results.suggestions && <SuggestionsSection suggestions={results.suggestions} />}
           </div>
         )}
       </main>

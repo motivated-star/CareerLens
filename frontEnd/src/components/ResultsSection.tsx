@@ -3,11 +3,10 @@
 import { useEffect, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CheckCircle, XCircle } from "lucide-react"
+import {XCircle } from "lucide-react"
 
 interface Results {
-  coverage_percentage: number
-  matching_skills: string[]
+  match_score: number
   missing_skills: string[]
 }
 
@@ -20,7 +19,7 @@ export default function ResultsSection({ results }: ResultsSectionProps) {
 
   useEffect(() => {
     if (chartRef.current) {
-      const percentage = results.coverage_percentage
+      const percentage = results.match_score
       const circumference = 2 * Math.PI * 45
       const offset = circumference - (percentage / 100) * circumference
 
@@ -62,7 +61,7 @@ export default function ResultsSection({ results }: ResultsSectionProps) {
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-blue-800">{results.coverage_percentage}%</span>
+                  <span className="text-2xl font-bold text-blue-800">{results.match_score}%</span>
                 </div>
               </div>
               <p className="text-lg font-medium text-gray-700 text-center">Match Score</p>
@@ -73,7 +72,7 @@ export default function ResultsSection({ results }: ResultsSectionProps) {
         {/* Skills Comparison */}
         <div className="lg:col-span-2 space-y-6">
           {/* Matched Skills */}
-          <Card className="border-green-200 bg-green-50/50 shadow-lg">
+          {/* <Card className="border-green-200 bg-green-50/50 shadow-lg">
             <CardHeader>
               <CardTitle className="text-xl text-green-800 flex items-center gap-2">
                 <CheckCircle className="w-5 h-5" />
@@ -95,7 +94,7 @@ export default function ResultsSection({ results }: ResultsSectionProps) {
                 ))}
               </ul>
             </CardContent>
-          </Card>
+          </Card> */}
 
           {/* Missing Skills */}
           <Card className="border-red-200 bg-red-50/50 shadow-lg">
