@@ -1,5 +1,4 @@
-"use client"
-
+import axios from "axios"
 import type React from "react"
 
 import { useState } from "react"
@@ -38,21 +37,18 @@ export default function UploadSection({ onUploadComplete, uploadComplete }: Uplo
       formData.append("jobLink", jobLink)
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/upload`, {
-          method: "POST",
-          body: formData,
-        })
-
-        if (response.ok) {
-          const data = await response.json()
-          console.log("Server response:", data)
-          onUploadComplete(data)
-        } else {
-          throw new Error("Upload failed")
-        }
-      } catch (error) {
-        console.error("Upload failed:", error)
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+      });
+        console.log('Upload Success:', res.data);
+        onUploadComplete(res.data);
+      } catch (error: any) {
+        console.error('Upload Error:', error.response?.data || error.message);
+        alert('Upload failed. Please try again.');
       }
+
     }
   }
 
@@ -88,13 +84,12 @@ export default function UploadSection({ onUploadComplete, uploadComplete }: Uplo
           <CardContent className="p-8">
             <form onSubmit={handleSubmit} className="space-y-8">
               <div
-                className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${
-                  resumeDragging
-                    ? "border-blue-500 bg-blue-50 scale-105"
-                    : resumeFile
-                      ? "border-green-400 bg-green-50"
-                      : "border-gray-300 hover:border-blue-400 hover:bg-blue-50/50"
-                }`}
+                className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${resumeDragging
+                  ? "border-blue-500 bg-blue-50 scale-105"
+                  : resumeFile
+                    ? "border-green-400 bg-green-50"
+                    : "border-gray-300 hover:border-blue-400 hover:bg-blue-50/50"
+                  }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}

@@ -10,7 +10,16 @@ const upload = async (req, res) => {
       filename: req.file.originalname,
       contentType: req.file.mimetype
     });
-
+    console.log('Form data prepared:', formData);
+  //    res.json({
+  //     coverage_percentage: 85,
+  //     matching_skills: ["React", "JavaScript", "CSS"],
+  //     missing_skills: ["TypeScript", "Node.js"],
+  //   });
+  // } catch (err) {
+  //   console.error("Error during upload:", err);
+  //   res.status(500).json({ error: "Server error during file upload" });
+  // }
     const response = await axios.post(
       'http://localhost:8000/analyze',
       formData,
