@@ -11,10 +11,10 @@ function parseFastApiResponse(responseString) {
   };
 
   // Extract match score (e.g., **Match Score: 85/100**)
-  const scoreMatch = responseString.match(/\*\*Match Score:\s*(\d+\/\d+)\*\*/);
-  if (scoreMatch) {
-    result.match_score = scoreMatch[1]; // "85/100"
-  }
+  const scoreMatch = responseString.match(/\*\*Match Score:\s*(\d+)(?:\/\d+)?\*\*/);
+if (scoreMatch) {
+  result.match_score = parseInt(scoreMatch[1], 10); 
+}
 
   // Extract missing skills list
   const missingSkillsMatch = responseString.match(/\*\*Missing Skills:\*\*([\s\S]*?)\n\n\*\*Suggestions to Improve the Resume:\*\*/);
@@ -67,7 +67,7 @@ const upload = async (req, res) => {
     console.log("req.body:", req.body);
 
     const response = await axios.post(
-      'http://localhost:8000/analyze',
+      `${process.env.FASTAPi_URL}`,
       formData,
       {
         headers: {
