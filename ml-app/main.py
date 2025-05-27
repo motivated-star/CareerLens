@@ -1,0 +1,25 @@
+from fastapi import FastAPI, File, UploadFile, Form
+from fastapi.middleware.cors import CORSMiddleware
+from utils.pdf_parser import extract_text_from_pdf
+from utils.scraper import scrape_job_description
+from llm_utils import analyze_resume
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.post("/analyze")
+async def analyze(resume: UploadFile = File(...), job_link: str = Form(...)):
+    resume_bytes = await resume.read()
+    resume_text = extract_text_from_pdf(resume_bytes)
+
+    job_desc = scrape_job_description(job_link)
+    result = analyze_resume(resume_text, job_desc)
+
+    return {"result": result}

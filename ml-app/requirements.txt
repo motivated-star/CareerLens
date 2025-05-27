@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+langchain
+together
+PyMuPDF
+dotenv
+beautifulsoup4
+requests
