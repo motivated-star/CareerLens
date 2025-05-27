@@ -67,7 +67,7 @@ const upload = async (req, res) => {
     console.log("req.body:", req.body);
 
     const response = await axios.post(
-      `${process.env.FASTAPi_URL}`,
+      `${process.env.FASTAPI_URL}`,
       formData,
       {
         headers: {
