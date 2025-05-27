@@ -4,6 +4,10 @@ from utils.pdf_parser import extract_text_from_pdf
 from utils.scraper import scrape_job_description
 from llm_utils import analyze_resume
 
+import os
+import uvicorn
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -23,3 +27,7 @@ async def analyze(resume: UploadFile = File(...), job_link: str = Form(...)):
     result = analyze_resume(resume_text, job_desc)
 
     return {"result": result}
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000)) 
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
