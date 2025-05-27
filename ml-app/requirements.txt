@@ -7,3 +7,4 @@ PyMuPDF
 dotenv
 beautifulsoup4
 requests
+langchain-together
