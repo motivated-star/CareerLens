@@ -38,6 +38,7 @@ type Job = {
   description: string;
   location: string;
   postedDate?: string;
+  salary?: string;
 };
 
 
@@ -73,9 +74,24 @@ export default function JobSearchPage() {
         },
       })
       console.log(response.data);
-      const rawJobs = response.data.data;
-      console.log(rawJobs);
-      const mappedJobs: Job[] = rawJobs.map((job) => ({
+      type RawJob = {
+        job_id: string;
+        job_title: string;
+        employer_name: string;
+        job_employment_type: string;
+        job_apply_link?: string;
+        job_description: string;
+        job_city: string;
+        job_state: string;
+        job_country: string;
+        job_posted_at?: string;
+        job_min_salary?: number;
+        job_max_salary?: number;
+      };
+
+      const rawJobs: RawJob[] = response.data.data;
+
+      const mappedJobs: Job[] = rawJobs.map((job): Job => ({
         job_id: job.job_id,
         title: job.job_title,
         company: job.employer_name,
@@ -88,8 +104,8 @@ export default function JobSearchPage() {
           job.job_min_salary && job.job_max_salary
             ? `${job.job_min_salary} - ${job.job_max_salary}`
             : "N/A",
-
       }));
+
       console.log(mappedJobs);
       setJobs(mappedJobs);
     } catch (error) {
@@ -353,7 +369,7 @@ export default function JobSearchPage() {
                             <div className="text-right">
                               <div className="flex items-center text-blue-700 font-semibold">
                                 <DollarSign className="h-4 w-4 mr-1" />
-                                {/* {job.salary} */}
+                                {job.salary}
                               </div>
                               <Badge variant="outline" className="mt-1 border-blue-200 text-blue-600">
                                 {job.type}
