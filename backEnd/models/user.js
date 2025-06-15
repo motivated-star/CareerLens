@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
       return !this.password;
     },
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);
