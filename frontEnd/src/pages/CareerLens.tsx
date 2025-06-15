@@ -108,6 +108,7 @@ export default function CareerLens() {
             delay={700}
             isLoaded={isLoaded}
             primary={false}
+            onClick = {() => navigate("/job-search")}
           />
         </div>
 

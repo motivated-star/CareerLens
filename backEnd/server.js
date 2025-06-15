@@ -31,7 +31,10 @@ connectMongoDb("mongodb+srv://itsaastha2005:CdoNrBFS6iv1Iwz0@auth.v4du6sl.mongod
 app.use(express.json());
 
 // Session middleware (should be before passport.session())
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false ,   cookie: {
+    sameSite: 'none',  // Important for cross-site
+    secure: true       // Must be true in production (HTTPS)
+  }}));
 
 // **IMPORTANT:** Require passport config before initializing passport
 require('./config/passport');

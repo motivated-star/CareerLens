@@ -6,6 +6,7 @@ passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
+  
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     const email = profile.emails[0].value;
@@ -15,6 +16,7 @@ passport.use(new GoogleStrategy({
 
     if (user) {
       console.log('User already exists:', user);
+      console.log(process.env.SERVER_URL);
       return done(null, user, { message: 'User already exists, please log in.' });
     }
 
@@ -26,7 +28,7 @@ passport.use(new GoogleStrategy({
     });
 
     console.log('New user created:', user);
-
+    console.log(process.env.SERVER_URL);
     return done(null, user);
   } catch (err) {
     console.error('Error during Google authentication:', err);
