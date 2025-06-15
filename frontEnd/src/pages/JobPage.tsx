@@ -64,13 +64,13 @@ export default function JobSearchPage() {
     try {
       const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
         params: {
-          query: searchQuery || "Software Engineer posted soon",
+          query: searchQuery || "Software Engineer posted in the last 30 days",
           page: 1,
           num_pages: 1
         },
         headers: {
-          "X-RapidAPI-Host": 'jsearch.p.rapidapi.com',
-          "X-RapidAPI-Key": "197de69161mshf35245b130506b7p101b21jsncafca805cb29",
+          "X-RapidAPI-Host": `${import.meta.env.VITE_JSEARCH_API_HOST}`,
+          "X-RapidAPI-Key": `${import.meta.env.VITE_JSEARCH_API_KEY}`,
         },
       })
       console.log(response.data);
@@ -114,9 +114,8 @@ export default function JobSearchPage() {
   };
 
   useEffect(() => {
-    // Fetch initial jobs on component mount
     fetchJobs();
-  },);
+  }, []);
 
   const clearFilters = () => {
     setSelectedLocation("")
