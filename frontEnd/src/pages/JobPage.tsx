@@ -353,7 +353,7 @@ export default function JobSearchPage() {
                             <div className="text-right">
                               <div className="flex items-center text-blue-700 font-semibold">
                                 <DollarSign className="h-4 w-4 mr-1" />
-                                {job.salary}
+                                {/* {job.salary} */}
                               </div>
                               <Badge variant="outline" className="mt-1 border-blue-200 text-blue-600">
                                 {job.type}
