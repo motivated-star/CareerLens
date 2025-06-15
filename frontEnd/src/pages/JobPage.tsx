@@ -75,7 +75,7 @@ export default function JobSearchPage() {
       console.log(response.data);
       const rawJobs = response.data.data;
       console.log(rawJobs);
-      const mappedJobs: Job[] = rawJobs.map((job: any) => ({
+      const mappedJobs: Job[] = rawJobs.map((job) => ({
         job_id: job.job_id,
         title: job.job_title,
         company: job.employer_name,
