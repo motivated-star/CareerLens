@@ -1,6 +1,6 @@
 const cron = require("node-cron");
-const FollowUp = require("../models/FollowUp");
-const sendMail = require("../utils/sendMail");
+const FollowUp = require("../models/followUp");
+const sendMail = require("../util/sendMail");
 
 cron.schedule("* * * * *", async () => {
   const now = new Date();
@@ -11,8 +11,13 @@ cron.schedule("* * * * *", async () => {
   });
 
   for (const followUp of dueFollowUps) {
+  try {
     await sendMail(followUp.to, "Follow-Up Reminder", followUp.message);
     followUp.sent = true;
     await followUp.save();
+  } catch (err) {
+    console.error(`❌ Failed to send to ${followUp.to}:`, err);
   }
+}
+
 });

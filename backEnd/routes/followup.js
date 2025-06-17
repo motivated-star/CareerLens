@@ -1,5 +1,6 @@
-const router = require("express").Router();
-const FollowUp = require("../models/FollowUp");
+const express = require("express");
+const router = express.Router();
+const FollowUp = require("../models/followUp");
 
 router.post("/schedule-followup", async (req, res) => {
   const { to, message, scheduledAt } = req.body;

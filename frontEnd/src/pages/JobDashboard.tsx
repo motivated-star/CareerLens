@@ -27,6 +27,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus, Edit, Trash2, Search, Mail } from "lucide-react";
+import axios from "axios";
 
 interface Job {
   id: string;
@@ -46,8 +47,8 @@ export default function JobDashboard() {
   const [isLoaded, setIsLoaded] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
-      setIsLoaded(true)
-    }, [])
+    setIsLoaded(true)
+  }, [])
   const [jobs, setJobs] = useState<Job[]>([
     {
       id: "1",
@@ -102,7 +103,8 @@ export default function JobDashboard() {
       job.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSubmit = (formData: FormData) => {
+  const handleSubmit = async (formData: FormData) => {
+    console.log("Form submitted with data:");
     const jobData = {
       id: editingJob?.id || Date.now().toString(),
       title: formData.get("title") as string,
@@ -112,6 +114,8 @@ export default function JobDashboard() {
       appliedDate: formData.get("appliedDate") as string,
       source: formData.get("source") as Job["source"],
       followUpEmail: formData.get("followUpEmail") as string,
+      followUpMessage: formData.get("followUpMessage") as string,
+      followUpDate: formData.get("followUpDate") as string,
       notes: formData.get("notes") as string,
     };
 
@@ -123,7 +127,27 @@ export default function JobDashboard() {
 
     setEditingJob(null);
     setIsDialogOpen(false);
+
+
+    if (
+      jobData.followUpEmail &&
+      jobData.followUpMessage &&
+      jobData.followUpDate
+    ) {
+      try {
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/schedule-followup`, {
+          to: jobData.followUpEmail,
+          message: jobData.followUpMessage,
+          scheduledAt: jobData.followUpDate,
+        });
+      } catch (err) {
+        console.error("Failed to schedule follow-up:", err);
+      }
+    } else {
+      console.warn("Follow-up details incomplete. Not scheduling follow-up email.");
+    }
   };
+
 
   const deleteJob = (id: string) => {
     setJobs(jobs.filter((job) => job.id !== id));
@@ -136,9 +160,8 @@ export default function JobDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <header
-        className={`sticky top-0 z-50 p-4 bg-white/90 backdrop-blur-md border-b border-blue-200 transition-transform duration-700 ease-out ${
-          isLoaded ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`sticky top-0 z-50 p-4 bg-white/90 backdrop-blur-md border-b border-blue-200 transition-transform duration-700 ease-out ${isLoaded ? "translate-y-0" : "-translate-y-full"
+          }`}
       >
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <h1 className="text-3xl font-bold text-blue-800">Job Dashboard</h1>
@@ -201,7 +224,12 @@ export default function JobDashboard() {
                     {editingJob ? "Edit Job" : "Add New Job"}
                   </DialogTitle>
                 </DialogHeader>
-                <form action={handleSubmit} className="space-y-4">
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  handleSubmit(formData);
+                }}
+                  className="space-y-4">
                   <div>
                     <Label htmlFor="title">Job Title</Label>
                     <Input
@@ -229,36 +257,36 @@ export default function JobDashboard() {
                       required
                     />
                   </div>
-                    <div>
-                      <Label htmlFor="followUpEmail">Follow-up Email</Label>
-                      <Input
-                        id="followUpEmail"
-                        name="followUpEmail"
-                        type="email"
-                        defaultValue={editingJob?.followUpEmail}
-                        placeholder="hr@company.com"
-                      />
-                    </div>
+                  <div>
+                    <Label htmlFor="followUpEmail">Follow-up Email</Label>
+                    <Input
+                      id="followUpEmail"
+                      name="followUpEmail"
+                      type="email"
+                      defaultValue={editingJob?.followUpEmail}
+                      placeholder="hr@company.com"
+                    />
+                  </div>
 
-                    <div>
-                      <Label htmlFor="followUpMessage">Message</Label>
-                      <Textarea
-                        id="followUpMessage"
-                        name="followUpMessage"
-                          defaultValue={editingJob?.followUpMessage || ""}
-                        placeholder="Hi, just following up on my application..."
-                      />
-                    </div>
+                  <div>
+                    <Label htmlFor="followUpMessage">Message</Label>
+                    <Textarea
+                      id="followUpMessage"
+                      name="followUpMessage"
+                      defaultValue={editingJob?.followUpMessage || ""}
+                      placeholder="Hi, just following up on my application..."
+                    />
+                  </div>
 
-                    <div>
-                      <Label htmlFor="followUpDate">Schedule Date & Time</Label>
-                      <Input
-                        id="followUpDate"
-                        name="followUpDate"
-                        type="datetime-local"
-                        defaultValue={editingJob?.followUpDate}
-                      />
-                    </div>
+                  <div>
+                    <Label htmlFor="followUpDate">Schedule Date & Time</Label>
+                    <Input
+                      id="followUpDate"
+                      name="followUpDate"
+                      type="datetime-local"
+                      defaultValue={editingJob?.followUpDate}
+                    />
+                  </div>
 
                   <div>
                     <Label htmlFor="status">Status</Label>
@@ -410,7 +438,7 @@ export default function JobDashboard() {
                   <TableCell>
                     {job.followUpMessage ? (
                       <div className="flex items-center gap-2">
-                          {job.followUpMessage}
+                        {job.followUpMessage}
                       </div>
                     ) : (
                       <span className="text-slate-400 text-sm">No Message</span>
