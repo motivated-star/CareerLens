@@ -1,6 +1,6 @@
 
 const nodemailer = require("nodemailer");
-require("dotenv").config(); // If you're using .env
+require("dotenv").config(); 
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
 // Optional: verify the connection
 transporter.verify((error, success) => {
   if (error) {
+    console.log("Email user:", process.env.EMAIL_USER);
     console.error("❌ Email server not ready:", error);
   } else {
     console.log("✅ Email server is ready to send messages");
