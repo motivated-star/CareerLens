@@ -12,7 +12,15 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: `${process.env.FRONTEND_URL}`, credentials: true }));
+const corsOptions = {
+  origin:` ${process.env.FRONTEND_URL}`,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 console.log(process.env.FRONTEND_URL);
 
 // Import routes
