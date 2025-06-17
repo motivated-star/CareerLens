@@ -3,6 +3,7 @@ const FollowUp = require("../models/followUp");
 const sendMail = require("../util/sendMail");
 
 cron.schedule("* * * * *", async () => {
+  console.log("🔄 Running follow-up email task...") ;
   const now = new Date();
 
   const dueFollowUps = await FollowUp.find({
