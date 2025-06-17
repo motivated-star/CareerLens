@@ -1,6 +1,8 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/user');
+const dotenv = require('dotenv');
+dotenv.config();
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
@@ -16,7 +18,7 @@ passport.use(new GoogleStrategy({
 
     if (user) {
       console.log('User already exists:', user);
-      console.log(process.env.SERVER_URL);
+      console.log(process.env.GOOGLE_CLIENT_ID);
       return done(null, user, { message: 'User already exists, please log in.' });
     }
 

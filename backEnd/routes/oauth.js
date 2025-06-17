@@ -9,10 +9,8 @@ router.get('/google',
 );
 
 router.get('/google/callback',
-  passport.authenticate('google', {
-    successRedirect: `${process.env.FRONTEND_URL}/home`,
-    failureRedirect: '/',
-  })
+  passport.authenticate('google', { failureRedirect: '/' }),
+  oauthSuccess
 );
 
 module.exports = router;

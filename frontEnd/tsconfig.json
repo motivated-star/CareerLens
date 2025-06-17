@@ -9,6 +9,8 @@
     }
   ],
   "compilerOptions": {
+    "moduleResolution": "node",
+    "types": ["react"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

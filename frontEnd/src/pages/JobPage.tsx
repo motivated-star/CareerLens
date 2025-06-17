@@ -10,23 +10,6 @@ import { Label } from "@/components/ui/label"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import axios from "axios"
 
-// Mock job data - replace with actual jsearch API data
-const mockJobs = [
-  {
-    id: 1,
-    title: "Senior Frontend Developer",
-    company: "TechCorp Inc.",
-    location: "San Francisco, CA",
-    type: "Full-time",
-    experience: "Senior",
-    salary: "$120k - $160k",
-    description: "We are looking for a Senior Frontend Developer to join our dynamic team...",
-    tags: ["React", "TypeScript", "Next.js"],
-    postedDate: "2 days ago",
-    logo: "/placeholder.svg?height=40&width=40",
-  }
-]
-
 
 
 type Job = {
@@ -267,7 +250,7 @@ export default function JobSearchPage() {
           <main className="flex-1">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-xl font-semibold text-blue-700">{mockJobs.length} Jobs Found</h2>
+                <h2 className="text-xl font-semibold text-blue-700">{jobs.length} Jobs Found</h2>
                 <p className="text-gray-600 mt-1">Discover your next career opportunity</p>
               </div>
 
