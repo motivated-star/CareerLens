@@ -1,6 +1,6 @@
 
 import type React from "react"
-
+import { InfinitySpin } from 'react-loader-spinner'
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
@@ -15,9 +15,10 @@ export default function LoginForm() {
     email: "",
     password: "",
   })
-  const [userType, setUserType] = useState<"student" | "recruiter" | null>(null)
+  const [loading, setLoading] = useState(false)
+  // const [userType, setUserType] = useState<"student" | "recruiter" | null>(null)
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -27,12 +28,13 @@ export default function LoginForm() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
 
-    if (!userType) {
-      alert("Please select whether you are a student or recruiter")
-      return
-    }
+    e.preventDefault()
+    setLoading(true)
+    // if (!userType) {
+    //   alert("Please select whether you are a student or recruiter")
+    //   return
+    // }
 
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, formData);
@@ -41,15 +43,17 @@ export default function LoginForm() {
     } catch (error: any) {
       console.error('Login Error:', error.response?.data || error.message);
       alert('Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
 
   }
 
   const handleGoogleLogin = () => {
-    if (!userType) {
-      alert("Please select whether you are a student or recruiter")
-      return
-    }
+    // if (!userType) {
+    //   alert("Please select whether you are a student or recruiter")
+    //   return
+    // }
     window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/google`)
   }
 
@@ -63,7 +67,7 @@ export default function LoginForm() {
 
         <CardContent className="space-y-6">
           {/* User Type Selection */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <Label className="text-sm font-medium text-gray-700">I am a:</Label>
             <div className="flex gap-3">
               <Button
@@ -89,7 +93,7 @@ export default function LoginForm() {
                 Recruiter
               </Button>
             </div>
-          </div>
+          </div> */}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
@@ -132,10 +136,16 @@ export default function LoginForm() {
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-200/50 transform hover:scale-[1.02] transition-all duration-200"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-200/50 transform hover:scale-[1.02] transition-all duration-200 flex justify-center items-center h-[52px]"
+              disabled={loading}
             >
-              Log In
+              {loading ? (
+                <InfinitySpin width="80" color="#ffffff" />
+              ) : (
+                'Log In'
+              )}
             </Button>
+
           </form>
 
           <div className="space-y-4">

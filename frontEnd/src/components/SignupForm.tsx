@@ -16,7 +16,7 @@ export default function SignupForm() {
     email: "",
     password: "",
   })
-  const [userType, setUserType] = useState<"student" | "recruiter" | null>(null)
+  // const [userType, setUserType] = useState<"student" | "recruiter" | null>(null)
   const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -28,10 +28,10 @@ export default function SignupForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!userType) {
-      alert("Please select whether you are a student or recruiter");
-      return;
-    }
+    // if (!userType) {
+    //   alert("Please select whether you are a student or recruiter");
+    //   return;
+    // }
 
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user`, formData);
@@ -43,10 +43,10 @@ export default function SignupForm() {
   };
 
   const handleGoogleSignup = () => {
-    if (!userType) {
-      alert("Please select whether you are a student or recruiter");
-      return;
-    }
+    // if (!userType) {
+    //   alert("Please select whether you are a student or recruiter");
+    //   return;
+    // }
 
     window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/google`);
   };
@@ -62,7 +62,7 @@ export default function SignupForm() {
 
         <CardContent className="space-y-6">
           {/* User Type Selection */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <Label className="text-sm font-medium text-gray-700">I am a:</Label>
             <div className="flex gap-3">
               <Button
@@ -88,7 +88,7 @@ export default function SignupForm() {
                 Recruiter
               </Button>
             </div>
-          </div>
+          </div> */}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
