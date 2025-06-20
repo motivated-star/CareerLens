@@ -1,7 +1,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { FileText, Briefcase, ArrowRight, Target, TrendingUp, Users, Award, LayoutDashboard, FolderKanban } from "lucide-react"
+import { FileText, Briefcase, ArrowRight, Target, TrendingUp, Users, Award, FolderKanban } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"

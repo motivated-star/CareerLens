@@ -36,18 +36,18 @@ export default function JobSearchPage() {
 
   const fetchJobs = async () => {
     try {
-      // const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
-      //   params: {
-      //     query: searchQuery || "Software Engineer posted in the last 30 days",
-      //     page: 1,
-      //     num_pages: 1
-      //   },
-      //   headers: {
-      //     "X-RapidAPI-Host": `${import.meta.env.VITE_JSEARCH_API_HOST}`,
-      //     "X-RapidAPI-Key": `${import.meta.env.VITE_JSEARCH_API_KEY}`,
-      //   },
-      // })
-      // console.log(response.data);
+      const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
+        params: {
+          query: searchQuery || "Software Engineer posted in the last 30 days",
+          page: 1,
+          num_pages: 1
+        },
+        headers: {
+          "X-RapidAPI-Host": `${import.meta.env.VITE_JSEARCH_API_HOST}`,
+          "X-RapidAPI-Key": `${import.meta.env.VITE_JSEARCH_API_KEY}`,
+        },
+      })
+      console.log(response.data);
       type RawJob = {
         job_id: string;
         job_title: string;
@@ -63,63 +63,63 @@ export default function JobSearchPage() {
         job_max_salary?: number;
       };
 
-      //const rawJobs: RawJob[] = response.data.data;
+      const rawJobs: RawJob[] = response.data.data;
 
-      const rawJobs: RawJob[] = [
-        {
-          job_id: "job_001",
-          job_title: "Frontend Developer",
-          employer_name: "TechCorp Inc.",
-          job_employment_type: "Full-time",
-          job_apply_link: "https://techcorp.com/careers/frontend",
-          job_description: "Build responsive user interfaces using React and Tailwind CSS.",
-          job_city: "San Francisco",
-          job_state: "CA",
-          job_country: "USA",
-          job_posted_at: "2025-06-15",
-          job_min_salary: 85000,
-          job_max_salary: 110000,
-        },
-        {
-          job_id: "job_002",
-          job_title: "Backend Engineer",
-          employer_name: "DataWave",
-          job_employment_type: "Part-time",
-          job_apply_link: "https://datawave.io/jobs/backend",
-          job_description: "Develop REST APIs with Node.js and MongoDB.",
-          job_city: "New York",
-          job_state: "NY",
-          job_country: "USA",
-          job_posted_at: "2025-06-12",
-          job_min_salary: 60000,
-          job_max_salary: 80000,
-        },
-        {
-          job_id: "job_003",
-          job_title: "Full Stack Intern",
-          employer_name: "StartupNest",
-          job_employment_type: "Internship",
-          job_apply_link: "https://startupnest.dev/internship",
-          job_description: "Work with MERN stack to build scalable web apps.",
-          job_city: "Bangalore",
-          job_state: "Karnataka",
-          job_country: "India",
-          job_posted_at: "2025-06-10",
-        },
-        {
-          job_id: "job_004",
-          job_title: "DevOps Engineer",
-          employer_name: "CloudNova",
-          job_employment_type: "Contract",
-          job_description: "Manage CI/CD pipelines and cloud infrastructure.",
-          job_city: "Remote",
-          job_state: "",
-          job_country: "USA",
-          job_posted_at: "2025-06-08",
-          job_min_salary: 90000,
-          job_max_salary: 130000,
-        },
-      ];
+      // const rawJobs: RawJob[] = [
+      //   {
+      //     job_id: "job_001",
+      //     job_title: "Frontend Developer",
+      //     employer_name: "TechCorp Inc.",
+      //     job_employment_type: "Full-time",
+      //     job_apply_link: "https://techcorp.com/careers/frontend",
+      //     job_description: "Build responsive user interfaces using React and Tailwind CSS.",
+      //     job_city: "San Francisco",
+      //     job_state: "CA",
+      //     job_country: "USA",
+      //     job_posted_at: "2025-06-15",
+      //     job_min_salary: 85000,
+      //     job_max_salary: 110000,
+      //   },
+      //   {
+      //     job_id: "job_002",
+      //     job_title: "Backend Engineer",
+      //     employer_name: "DataWave",
+      //     job_employment_type: "Part-time",
+      //     job_apply_link: "https://datawave.io/jobs/backend",
+      //     job_description: "Develop REST APIs with Node.js and MongoDB.",
+      //     job_city: "New York",
+      //     job_state: "NY",
+      //     job_country: "USA",
+      //     job_posted_at: "2025-06-12",
+      //     job_min_salary: 60000,
+      //     job_max_salary: 80000,
+      //   },
+      //   {
+      //     job_id: "job_003",
+      //     job_title: "Full Stack Intern",
+      //     employer_name: "StartupNest",
+      //     job_employment_type: "Internship",
+      //     job_apply_link: "https://startupnest.dev/internship",
+      //     job_description: "Work with MERN stack to build scalable web apps.",
+      //     job_city: "Bangalore",
+      //     job_state: "Karnataka",
+      //     job_country: "India",
+      //     job_posted_at: "2025-06-10",
+      //   },
+      //   {
+      //     job_id: "job_004",
+      //     job_title: "DevOps Engineer",
+      //     employer_name: "CloudNova",
+      //     job_employment_type: "Contract",
+      //     job_description: "Manage CI/CD pipelines and cloud infrastructure.",
+      //     job_city: "Remote",
+      //     job_state: "",
+      //     job_country: "USA",
+      //     job_posted_at: "2025-06-08",
+      //     job_min_salary: 90000,
+      //     job_max_salary: 130000,
+      //   },
+      // ];
       const mappedJobs: Job[] = rawJobs.map((job): Job => ({
         job_id: job.job_id,
         title: job.job_title,
