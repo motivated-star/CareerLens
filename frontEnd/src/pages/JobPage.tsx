@@ -5,12 +5,9 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import axios from "axios"
-
-
 
 type Job = {
   job_id: string;
@@ -29,34 +26,28 @@ export default function JobSearchPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedLocation, setSelectedLocation] = useState("")
   const [selectedJobType, setSelectedJobType] = useState("")
-  const [selectedExperience, setSelectedExperience] = useState("")
-  const [selectedSalaryRange, setSelectedSalaryRange] = useState("")
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [selectedExperience, setSelectedExperience] = useState<string>("");
   const [jobs, setJobs] = useState<Job[]>([]);
 
   const jobTypes = ["Full-time", "Part-time", "Contract", "Freelance", "Internship"]
   const experienceLevels = ["Entry-level", "Mid-level", "Senior", "Executive"]
-  const salaryRanges = ["$0 - $50k", "$50k - $100k", "$100k - $150k", "$150k+"]
-  const popularTags = ["React", "TypeScript", "Python", "Node.js", "AWS", "Docker", "UI/UX", "Machine Learning"]
 
-  const handleTagToggle = (tag: string) => {
-    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
-  }
+
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
-        params: {
-          query: searchQuery || "Software Engineer posted in the last 30 days",
-          page: 1,
-          num_pages: 1
-        },
-        headers: {
-          "X-RapidAPI-Host": `${import.meta.env.VITE_JSEARCH_API_HOST}`,
-          "X-RapidAPI-Key": `${import.meta.env.VITE_JSEARCH_API_KEY}`,
-        },
-      })
-      console.log(response.data);
+      // const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
+      //   params: {
+      //     query: searchQuery || "Software Engineer posted in the last 30 days",
+      //     page: 1,
+      //     num_pages: 1
+      //   },
+      //   headers: {
+      //     "X-RapidAPI-Host": `${import.meta.env.VITE_JSEARCH_API_HOST}`,
+      //     "X-RapidAPI-Key": `${import.meta.env.VITE_JSEARCH_API_KEY}`,
+      //   },
+      // })
+      // console.log(response.data);
       type RawJob = {
         job_id: string;
         job_title: string;
@@ -72,8 +63,63 @@ export default function JobSearchPage() {
         job_max_salary?: number;
       };
 
-      const rawJobs: RawJob[] = response.data.data;
+      //const rawJobs: RawJob[] = response.data.data;
 
+      const rawJobs: RawJob[] = [
+        {
+          job_id: "job_001",
+          job_title: "Frontend Developer",
+          employer_name: "TechCorp Inc.",
+          job_employment_type: "Full-time",
+          job_apply_link: "https://techcorp.com/careers/frontend",
+          job_description: "Build responsive user interfaces using React and Tailwind CSS.",
+          job_city: "San Francisco",
+          job_state: "CA",
+          job_country: "USA",
+          job_posted_at: "2025-06-15",
+          job_min_salary: 85000,
+          job_max_salary: 110000,
+        },
+        {
+          job_id: "job_002",
+          job_title: "Backend Engineer",
+          employer_name: "DataWave",
+          job_employment_type: "Part-time",
+          job_apply_link: "https://datawave.io/jobs/backend",
+          job_description: "Develop REST APIs with Node.js and MongoDB.",
+          job_city: "New York",
+          job_state: "NY",
+          job_country: "USA",
+          job_posted_at: "2025-06-12",
+          job_min_salary: 60000,
+          job_max_salary: 80000,
+        },
+        {
+          job_id: "job_003",
+          job_title: "Full Stack Intern",
+          employer_name: "StartupNest",
+          job_employment_type: "Internship",
+          job_apply_link: "https://startupnest.dev/internship",
+          job_description: "Work with MERN stack to build scalable web apps.",
+          job_city: "Bangalore",
+          job_state: "Karnataka",
+          job_country: "India",
+          job_posted_at: "2025-06-10",
+        },
+        {
+          job_id: "job_004",
+          job_title: "DevOps Engineer",
+          employer_name: "CloudNova",
+          job_employment_type: "Contract",
+          job_description: "Manage CI/CD pipelines and cloud infrastructure.",
+          job_city: "Remote",
+          job_state: "",
+          job_country: "USA",
+          job_posted_at: "2025-06-08",
+          job_min_salary: 90000,
+          job_max_salary: 130000,
+        },
+      ];
       const mappedJobs: Job[] = rawJobs.map((job): Job => ({
         job_id: job.job_id,
         title: job.job_title,
@@ -104,9 +150,23 @@ export default function JobSearchPage() {
     setSelectedLocation("")
     setSelectedJobType("")
     setSelectedExperience("")
-    setSelectedSalaryRange("")
-    setSelectedTags([])
   }
+
+  const filteredJobs = jobs.filter((job) => {
+    const locationMatch = selectedLocation
+      ? job.location.toLowerCase().includes(selectedLocation.toLowerCase())
+      : true;
+
+    const typeMatch = selectedJobType
+      ? job.type.toLowerCase().includes(selectedJobType.toLowerCase())
+      : true;
+
+    const experienceMatch = selectedExperience
+      ? job.description.toLowerCase().includes(selectedExperience.toLowerCase()) // or match against a job.experience field if available
+      : true;
+
+    return locationMatch && typeMatch && experienceMatch;
+  });
 
   const FilterContent = () => (
     <div className="space-y-6">
@@ -126,12 +186,13 @@ export default function JobSearchPage() {
               <SelectValue placeholder="Select location" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="san-francisco">San Francisco, CA</SelectItem>
-              <SelectItem value="new-york">New York, NY</SelectItem>
-              <SelectItem value="remote">Remote</SelectItem>
-              <SelectItem value="austin">Austin, TX</SelectItem>
-              <SelectItem value="seattle">Seattle, WA</SelectItem>
-              <SelectItem value="boston">Boston, MA</SelectItem>
+              <SelectItem value="San Francisco">San Francisco, CA</SelectItem>
+              <SelectItem value="New York">New York, NY</SelectItem>
+              <SelectItem value="Remote">Remote</SelectItem>
+              <SelectItem value="Austin">Austin, TX</SelectItem>
+              <SelectItem value="Seattle">Seattle, WA</SelectItem>
+              <SelectItem value="Boston">Boston, MA</SelectItem>
+
             </SelectContent>
           </Select>
         </div>
@@ -168,40 +229,7 @@ export default function JobSearchPage() {
           </Select>
         </div>
 
-        <div>
-          <Label className="text-sm font-medium text-blue-700">Salary Range</Label>
-          <Select value={selectedSalaryRange} onValueChange={setSelectedSalaryRange}>
-            <SelectTrigger className="mt-1 border-blue-200 focus:border-blue-600">
-              <SelectValue placeholder="Select salary range" />
-            </SelectTrigger>
-            <SelectContent>
-              {salaryRanges.map((range) => (
-                <SelectItem key={range} value={range}>
-                  {range}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
 
-        <div>
-          <Label className="text-sm font-medium text-blue-700 mb-3 block">Skills & Technologies</Label>
-          <div className="grid grid-cols-2 gap-2">
-            {popularTags.map((tag) => (
-              <div key={tag} className="flex items-center space-x-2">
-                <Checkbox
-                  id={tag}
-                  checked={selectedTags.includes(tag)}
-                  onCheckedChange={() => handleTagToggle(tag)}
-                  className="border-blue-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-                />
-                <Label htmlFor={tag} className="text-sm text-gray-700 cursor-pointer">
-                  {tag}
-                </Label>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   )
@@ -274,50 +302,63 @@ export default function JobSearchPage() {
             </div>
 
             {/* Active Filters */}
-            {(selectedLocation ||
-              selectedJobType ||
-              selectedExperience ||
-              selectedSalaryRange ||
-              selectedTags.length > 0) && (
-                <div className="mb-6">
-                  <div className="flex flex-wrap gap-2">
-                    {selectedLocation && (
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
-                        Location: {selectedLocation}
-                        <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => setSelectedLocation("")} />
-                      </Badge>
-                    )}
-                    {selectedJobType && (
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
-                        Type: {selectedJobType}
-                        <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => setSelectedJobType("")} />
-                      </Badge>
-                    )}
-                    {selectedExperience && (
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
-                        Experience: {selectedExperience}
-                        <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => setSelectedExperience("")} />
-                      </Badge>
-                    )}
-                    {selectedSalaryRange && (
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
-                        Salary: {selectedSalaryRange}
-                        <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => setSelectedSalaryRange("")} />
-                      </Badge>
-                    )}
-                    {selectedTags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
-                        {tag}
-                        <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => handleTagToggle(tag)} />
-                      </Badge>
-                    ))}
-                  </div>
+            {(selectedLocation || selectedJobType || selectedExperience) && (
+              <div className="mb-6">
+                <div className="flex flex-wrap gap-2">
+                  {selectedLocation && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-blue-100 text-blue-700 hover:bg-blue-200 flex items-center gap-1"
+                    >
+                      Location: {selectedLocation}
+                      <button
+                        onClick={()=>setSelectedLocation("")}
+                        className="ml-1 text-blue-700 hover:text-blue-900"
+                        aria-label="Clear filters"
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  )}
+
+                  {selectedJobType && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-blue-100 text-blue-700 hover:bg-blue-200 flex items-center gap-1"
+                    >
+                      Type: {selectedJobType}
+                      <button
+                        onClick={()=>setSelectedJobType("")}
+                        className="ml-1 text-blue-700 hover:text-blue-900"
+                        aria-label="Clear filters"
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  )}
+
+                  {selectedExperience && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-blue-100 text-blue-700 hover:bg-blue-200 flex items-center gap-1"
+                    >
+                      Experience: {selectedExperience}
+                      <button
+                        onClick={()=>setSelectedExperience("")}
+                        className="ml-1 text-blue-700 hover:text-blue-900"
+                        aria-label="Clear filters"
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  )}
                 </div>
-              )}
+              </div>
+            )}
 
             {/* Job Cards */}
             <div className="space-y-4">
-              {jobs.map((job) => (
+              {filteredJobs.map((job) => (
                 <Card key={job.job_id} className="border-blue-200 hover:border-blue-300 transition-colors hover:shadow-md">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between">

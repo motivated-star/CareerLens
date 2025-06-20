@@ -1,7 +1,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { FileText, Briefcase, ArrowRight, Target, TrendingUp, Users, Award } from "lucide-react"
+import { FileText, Briefcase, ArrowRight, Target, TrendingUp, Users, Award, LayoutDashboard, FolderKanban } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -37,7 +37,7 @@ export default function CareerLens() {
             </h1>
           </div>
           <nav className="hidden md:flex gap-8">
-            <Button variant="ghost" className="text-blue-800 hover:text-blue-600">
+            <Button variant="ghost" className="text-blue-800 hover:text-blue-600" onClick={() => navigate("/home")}>
               Home
             </Button>
             <Button variant="ghost" className="text-blue-800 hover:text-blue-600">
@@ -110,6 +110,19 @@ export default function CareerLens() {
             primary={false}
             onClick = {() => navigate("/job-search")}
           />
+
+          <FeatureCard
+            icon={<FolderKanban size={32} />}
+            title="Job Dashboard"
+            description="Keep track of yours jobs with us."
+            features={["Add jobs", "Automatic Follow Up", "Track Progress"]}
+            delay={600}
+            isLoaded={isLoaded}
+            primary={true}
+            onClick = {() => navigate("/job-dashboard")}
+          />
+
+          
         </div>
 
         {/* Stats Section */}

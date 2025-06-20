@@ -134,17 +134,24 @@ export default function LoginForm() {
               </Link> */}
             </div>
 
+            {loading && (
+              <div className="fixed inset-0 bg-white/60 backdrop-blur-sm z-50 flex justify-center items-center">
+                <InfinitySpin width="150" color="#2563eb" />
+              </div>
+            )}
+
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-200/50 transform hover:scale-[1.02] transition-all duration-200 flex justify-center items-center h-[52px]"
               disabled={loading}
             >
               {loading ? (
-                <InfinitySpin width="80" color="#ffffff" />
+                <span className="text-blue-700">Logging in...</span>
               ) : (
                 'Log In'
               )}
             </Button>
+
 
           </form>
 

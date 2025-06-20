@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -44,6 +45,7 @@ interface Job {
 }
 
 export default function JobDashboard() {
+  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
@@ -169,6 +171,7 @@ export default function JobDashboard() {
             <Button
               variant="ghost"
               className="text-blue-800 hover:text-blue-600"
+              onClick={() => navigate('/home')}
             >
               Home
             </Button>
