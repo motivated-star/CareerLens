@@ -2,7 +2,7 @@ const cron = require("node-cron");
 const FollowUp = require("../models/followUp");
 const sendMail = require("../util/sendMail");
 
-cron.schedule("* * * * *", async () => {
+cron.schedule("30 4 * * *", async () => {
   console.log("🔄 Running follow-up email task...") ;
   const now = new Date();
 
