@@ -11,12 +11,14 @@ import { Upload, FileText, LinkIcon, CheckCircle } from "lucide-react"
 interface UploadSectionProps {
   onUploadComplete: (data: any) => void
   uploadComplete: boolean
+  onAnalyzingStart: () => void
 }
 
-export default function UploadSection({ onUploadComplete, uploadComplete }: UploadSectionProps) {
+export default function UploadSection({ onUploadComplete, uploadComplete, onAnalyzingStart }: UploadSectionProps) {
   const [resumeFile, setResumeFile] = useState<File | null>(null)
   const [jobLink, setJobLink] = useState("")
   const [resumeDragging, setResumeDragging] = useState(false)
+  const [jobDescription, setJobDescription] = useState("")
 
   const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -32,16 +34,22 @@ export default function UploadSection({ onUploadComplete, uploadComplete }: Uplo
     e.preventDefault()
 
     if (resumeFile && jobLink) {
+      onAnalyzingStart();
       const formData = new FormData()
       formData.append("resume", resumeFile)
-      formData.append("jobLink", jobLink)
+      if (jobDescription) {
+        formData.append("jobDescription", jobDescription)
+      } else {
+        formData.append("jobLink", jobLink)
+      }
+
 
       try {
         const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
-      });
+        });
         console.log('Upload Success:', res.data);
         onUploadComplete(res.data);
       } catch (error: any) {
@@ -126,7 +134,7 @@ export default function UploadSection({ onUploadComplete, uploadComplete }: Uplo
               <div className="space-y-3">
                 <Label htmlFor="job-link" className="text-base font-medium text-gray-700 flex items-center gap-2">
                   <LinkIcon className="w-5 h-5" />
-                  Job Posting URL
+                  Job Posting Link (Optional)
                 </Label>
                 <Input
                   type="url"
@@ -134,10 +142,25 @@ export default function UploadSection({ onUploadComplete, uploadComplete }: Uplo
                   placeholder="Paste the link to the job posting"
                   value={jobLink}
                   onChange={handleJobLinkChange}
-                  required
                   className="text-base py-3 bg-white border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                 />
               </div>
+
+              <div className="space-y-3">
+                <Label htmlFor="job-desc" className="text-base font-medium text-gray-700 flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Job Description (Optional)
+                </Label>
+                <textarea
+                  id="job-desc"
+                  placeholder="Or paste the job description directly"
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  rows={5}
+                  className="w-full text-base py-3 px-4 bg-white border border-gray-200 focus:border-blue-400 focus:ring-blue-400 rounded-md resize-y"
+                />
+              </div>
+
 
               <Button
                 type="submit"

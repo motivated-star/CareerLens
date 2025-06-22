@@ -2,6 +2,8 @@ import { useState } from "react"
 import UploadSection from "../components/UploadSection"
 import ResultsSection from "../components/ResultsSection"
 import SuggestionsSection from "../components/SuggestionsSection"
+import { InfinitySpin } from "react-loader-spinner"
+
 
 interface Results {
   match_score: number
@@ -18,21 +20,6 @@ export default function HomePage() {
     setUploadComplete(true)
     setAnalyzing(true)
 
-    // Simulate analysis process
-    // setTimeout(() => {
-    //   setAnalyzing(false)
-    //   setResults({
-    //     matchPercentage: 78,
-    //     matchedSkills: ["React", "JavaScript", "CSS", "HTML", "API Integration"],
-    //     missingSkills: ["TypeScript", "Node.js", "AWS"],
-    //     suggestions: [
-    //       "Add experience with TypeScript to your resume",
-    //       "Highlight any Node.js projects you've worked on",
-    //       "Include any cloud experience, especially AWS",
-    //       "Quantify your achievements with metrics",
-    //     ],
-    //   })
-    // }, 3000)
     setResults(data)
     setAnalyzing(false)
   }
@@ -41,18 +28,25 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <header className="bg-white shadow-sm border-b border-blue-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+              Resume Analysis
+            </h1>
+            
+          </div>
+        </div>
+      </header>
       <main className="container mx-auto px-4 py-8 max-w-6xl">
-        <UploadSection onUploadComplete={handleUploadComplete} uploadComplete={uploadComplete} />
+        <UploadSection onUploadComplete={handleUploadComplete} uploadComplete={uploadComplete} onAnalyzingStart={()=>setAnalyzing(true)}/>
 
         {analyzing && (
-          <div className="flex flex-col items-center justify-center py-16 space-y-6">
-            <div className="relative">
-              <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-              <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-blue-400 rounded-full animate-spin animation-delay-150"></div>
-            </div>
-            <h2 className="text-2xl font-semibold text-gray-700 text-center">Analyzing your resume and job match...</h2>
-            <p className="text-gray-500 text-center max-w-md">
-              Our AI is carefully reviewing your resume against the job requirements to provide personalized insights.
+          <div className="fixed inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col justify-center items-center space-y-6">
+            <InfinitySpin width="150" color="#2563eb" />
+            <h2 className="text-2xl font-semibold text-blue-700 text-center">Analyzing your resume and job match...</h2>
+            <p className="text-gray-600 text-center max-w-md">
+              Our AI is reviewing your resume against the job to give smart suggestions.
             </p>
           </div>
         )}

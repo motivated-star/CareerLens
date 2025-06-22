@@ -116,7 +116,7 @@ export default function CareerLens() {
             title="Job Dashboard"
             description="Keep track of yours jobs with us."
             features={["Add jobs", "Automatic Follow Up", "Track Progress"]}
-            delay={600}
+            delay={800}
             isLoaded={isLoaded}
             primary={true}
             onClick = {() => navigate("/job-dashboard")}

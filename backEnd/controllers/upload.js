@@ -57,7 +57,14 @@ const upload = async (req, res) => {
   try {
     const formData = new FormData();
 
-    formData.append('job_link', req.body.jobLink);
+    if (req.body.jobDescription) {
+      formData.append('job_description', req.body.jobDescription);
+    } else if (req.body.jobLink) {
+      formData.append('job_link', req.body.jobLink);
+    } else {
+      return res.status(400).json({ error: "Provide either jobLink or jobDescription" });
+    }
+
     formData.append('resume', req.file.buffer, {
       filename: req.file.originalname,
       contentType: req.file.mimetype

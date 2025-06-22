@@ -54,7 +54,7 @@ export default function LoginForm() {
     //   alert("Please select whether you are a student or recruiter")
     //   return
     // }
-    window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/google`)
+    window.location.href = (`${import.meta.env.VITE_BACKEND_URL}/auth/google`)
   }
 
   return (

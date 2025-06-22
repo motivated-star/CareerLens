@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -71,30 +69,6 @@ export default function ResultsSection({ results }: ResultsSectionProps) {
 
         {/* Skills Comparison */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Matched Skills */}
-          {/* <Card className="border-green-200 bg-green-50/50 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-xl text-green-800 flex items-center gap-2">
-                <CheckCircle className="w-5 h-5" />
-                Matched Skills
-              </CardTitle>
-              <CardDescription>Skills from your resume that match the job requirements</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="flex flex-wrap gap-2">
-                {results.matching_skills.map((skill, index) => (
-                  <li key={`matched-${index}`}>
-                    <Badge
-                      variant="secondary"
-                      className="bg-green-100 text-green-800 border-green-200 hover:bg-green-200 transition-colors"
-                    >
-                      {skill}
-                    </Badge>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card> */}
 
           {/* Missing Skills */}
           <Card className="border-red-200 bg-red-50/50 shadow-lg">

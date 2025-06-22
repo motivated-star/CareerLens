@@ -8,7 +8,7 @@ api_key = os.getenv("TOGETHER_API_KEY")
 
 llm = init_chat_model(
     model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-    model_provider="together",  # This tells LangChain to use Together AI
+    model_provider="together", 
     model_kwargs={"together_api_key": api_key}
 )
 

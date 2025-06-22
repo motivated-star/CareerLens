@@ -19,11 +19,17 @@ app.add_middleware(
 )
 
 @app.post("/analyze")
-async def analyze(resume: UploadFile = File(...), job_link: str = Form(...)):
+async def analyze(resume: UploadFile = File(...), job_link: str = Form(...),job_description: str = Form(...)):
     resume_bytes = await resume.read()
     resume_text = extract_text_from_pdf(resume_bytes)
 
-    job_desc = scrape_job_description(job_link)
+    if job_description:
+        job_desc = job_description
+    elif job_link:
+        job_desc = scrape_job_description(job_link)
+    else:
+        return {"error": "Provide either a job link or job description"}
+    
     result = analyze_resume(resume_text, job_desc)
 
     return {"result": result}

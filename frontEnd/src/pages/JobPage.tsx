@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { JobDetailsSidebar } from "../components/Job_details"
+import axios from "axios"
 
 type Job = {
   job_id: string
@@ -35,18 +36,18 @@ export default function JobSearchPage() {
 
   const fetchJobs = async () => {
     try {
-      // const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
-//       //   params: {
-//       //     query: searchQuery || "Software Engineer posted in the last 30 days",
-//       //     page: 1,
-//       //     num_pages: 1
-//       //   },
-//       //   headers: {
-//       //     "X-RapidAPI-Host": `${import.meta.env.VITE_JSEARCH_API_HOST}`,
-//       //     "X-RapidAPI-Key": `${import.meta.env.VITE_JSEARCH_API_KEY}`,
-//       //   },
-//       // })
-//       // console.log(response.data);
+      const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
+        params: {
+          query: searchQuery || "Software Engineer posted in the last 30 days",
+          page: 1,
+          num_pages: 1
+        },
+        headers: {
+          "X-RapidAPI-Host": `${import.meta.env.VITE_JSEARCH_API_HOST}`,
+          "X-RapidAPI-Key": `${import.meta.env.VITE_JSEARCH_API_KEY}`,
+        },
+      })
+      console.log(response.data);
       type RawJob = {
         job_id: string
         job_title: string
@@ -62,67 +63,67 @@ export default function JobSearchPage() {
         job_max_salary?: number
       }
 
-      // const rawJobs: RawJob[] = response.data.data;
+      const rawJobs: RawJob[] = response.data.data;
 
-      const rawJobs: RawJob[] = [
-        {
-          job_id: "job_001",
-          job_title: "Frontend Developer",
-          employer_name: "TechCorp Inc.",
-          job_employment_type: "Full-time",
-          job_apply_link: "https://techcorp.com/careers/frontend",
-          job_description:
-            "We are looking for a skilled Frontend Developer to join our dynamic team. You will be responsible for building responsive user interfaces using React and Tailwind CSS. The ideal candidate should have experience with modern JavaScript frameworks, state management, and API integration.\n\nKey Responsibilities:\n• Develop and maintain user-facing web applications\n• Collaborate with designers to implement pixel-perfect designs\n• Optimize applications for maximum speed and scalability\n• Write clean, maintainable, and well-documented code\n• Participate in code reviews and team meetings",
-          job_city: "San Francisco",
-          job_state: "CA",
-          job_country: "USA",
-          job_posted_at: "2025-06-15",
-          job_min_salary: 85000,
-          job_max_salary: 110000,
-        },
-        {
-          job_id: "job_002",
-          job_title: "Backend Engineer",
-          employer_name: "DataWave",
-          job_employment_type: "Part-time",
-          job_apply_link: "https://datawave.io/jobs/backend",
-          job_description:
-            "Join our backend team to develop robust REST APIs with Node.js and MongoDB. You'll work on scalable microservices architecture and help build the foundation of our data processing platform.\n\nWhat you'll do:\n• Design and implement RESTful APIs\n• Work with databases and data modeling\n• Implement authentication and authorization systems\n• Monitor and optimize application performance\n• Collaborate with frontend developers for seamless integration",
-          job_city: "New York",
-          job_state: "NY",
-          job_country: "USA",
-          job_posted_at: "2025-06-12",
-          job_min_salary: 60000,
-          job_max_salary: 80000,
-        },
-        {
-          job_id: "job_003",
-          job_title: "Full Stack Intern",
-          employer_name: "StartupNest",
-          job_employment_type: "Internship",
-          job_apply_link: "https://startupnest.dev/internship",
-          job_description:
-            "Exciting internship opportunity to work with MERN stack and build scalable web applications. Perfect for students or recent graduates looking to gain hands-on experience in a fast-paced startup environment.\n\nLearning Opportunities:\n• Full-stack development with MongoDB, Express, React, and Node.js\n• Agile development methodologies\n• Code review processes and best practices\n• Deployment and DevOps basics\n• Mentorship from senior developers",
-          job_city: "Bangalore",
-          job_state: "Karnataka",
-          job_country: "India",
-          job_posted_at: "2025-06-10",
-        },
-        {
-          job_id: "job_004",
-          job_title: "DevOps Engineer",
-          employer_name: "CloudNova",
-          job_employment_type: "Contract",
-          job_description:
-            "We're seeking an experienced DevOps Engineer to manage our CI/CD pipelines and cloud infrastructure. You'll work with cutting-edge technologies to ensure our applications are deployed efficiently and securely.\n\nTechnical Requirements:\n• Experience with AWS/Azure/GCP\n• Proficiency in Docker and Kubernetes\n• Knowledge of Infrastructure as Code (Terraform/CloudFormation)\n• CI/CD pipeline management (Jenkins/GitLab CI/GitHub Actions)\n• Monitoring and logging solutions\n• Security best practices",
-          job_city: "Remote",
-          job_state: "",
-          job_country: "USA",
-          job_posted_at: "2025-06-08",
-          job_min_salary: 90000,
-          job_max_salary: 130000,
-        },
-      ]
+      // const rawJobs: RawJob[] = [
+      //   {
+      //     job_id: "job_001",
+      //     job_title: "Frontend Developer",
+      //     employer_name: "TechCorp Inc.",
+      //     job_employment_type: "Full-time",
+      //     job_apply_link: "https://techcorp.com/careers/frontend",
+      //     job_description:
+      //       "We are looking for a skilled Frontend Developer to join our dynamic team. You will be responsible for building responsive user interfaces using React and Tailwind CSS. The ideal candidate should have experience with modern JavaScript frameworks, state management, and API integration.\n\nKey Responsibilities:\n• Develop and maintain user-facing web applications\n• Collaborate with designers to implement pixel-perfect designs\n• Optimize applications for maximum speed and scalability\n• Write clean, maintainable, and well-documented code\n• Participate in code reviews and team meetings",
+      //     job_city: "San Francisco",
+      //     job_state: "CA",
+      //     job_country: "USA",
+      //     job_posted_at: "2025-06-15",
+      //     job_min_salary: 85000,
+      //     job_max_salary: 110000,
+      //   },
+      //   {
+      //     job_id: "job_002",
+      //     job_title: "Backend Engineer",
+      //     employer_name: "DataWave",
+      //     job_employment_type: "Part-time",
+      //     job_apply_link: "https://datawave.io/jobs/backend",
+      //     job_description:
+      //       "Join our backend team to develop robust REST APIs with Node.js and MongoDB. You'll work on scalable microservices architecture and help build the foundation of our data processing platform.\n\nWhat you'll do:\n• Design and implement RESTful APIs\n• Work with databases and data modeling\n• Implement authentication and authorization systems\n• Monitor and optimize application performance\n• Collaborate with frontend developers for seamless integration",
+      //     job_city: "New York",
+      //     job_state: "NY",
+      //     job_country: "USA",
+      //     job_posted_at: "2025-06-12",
+      //     job_min_salary: 60000,
+      //     job_max_salary: 80000,
+      //   },
+      //   {
+      //     job_id: "job_003",
+      //     job_title: "Full Stack Intern",
+      //     employer_name: "StartupNest",
+      //     job_employment_type: "Internship",
+      //     job_apply_link: "https://startupnest.dev/internship",
+      //     job_description:
+      //       "Exciting internship opportunity to work with MERN stack and build scalable web applications. Perfect for students or recent graduates looking to gain hands-on experience in a fast-paced startup environment.\n\nLearning Opportunities:\n• Full-stack development with MongoDB, Express, React, and Node.js\n• Agile development methodologies\n• Code review processes and best practices\n• Deployment and DevOps basics\n• Mentorship from senior developers",
+      //     job_city: "Bangalore",
+      //     job_state: "Karnataka",
+      //     job_country: "India",
+      //     job_posted_at: "2025-06-10",
+      //   },
+      //   {
+      //     job_id: "job_004",
+      //     job_title: "DevOps Engineer",
+      //     employer_name: "CloudNova",
+      //     job_employment_type: "Contract",
+      //     job_description:
+      //       "We're seeking an experienced DevOps Engineer to manage our CI/CD pipelines and cloud infrastructure. You'll work with cutting-edge technologies to ensure our applications are deployed efficiently and securely.\n\nTechnical Requirements:\n• Experience with AWS/Azure/GCP\n• Proficiency in Docker and Kubernetes\n• Knowledge of Infrastructure as Code (Terraform/CloudFormation)\n• CI/CD pipeline management (Jenkins/GitLab CI/GitHub Actions)\n• Monitoring and logging solutions\n• Security best practices",
+      //     job_city: "Remote",
+      //     job_state: "",
+      //     job_country: "USA",
+      //     job_posted_at: "2025-06-08",
+      //     job_min_salary: 90000,
+      //     job_max_salary: 130000,
+      //   },
+      // ]
 
       const mappedJobs: Job[] = rawJobs.map(
         (job): Job => ({
