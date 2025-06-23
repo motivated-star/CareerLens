@@ -38,7 +38,7 @@ export default function JobSearchPage() {
     try {
       const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
         params: {
-          query: searchQuery || "Software Engineer posted in the last 30 days",
+          query: searchQuery || "Software Engineer jobs in India posted in the last 30 days",
           page: 1,
           num_pages: 1
         },

@@ -45,7 +45,7 @@ interface Job {
 }
 
 export default function JobDashboard() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
@@ -167,7 +167,7 @@ export default function JobDashboard() {
       >
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <h1 className="text-3xl font-bold text-blue-800">Job Dashboard</h1>
-          <nav className="hidden md:flex gap-8">
+          {/* <nav className="hidden md:flex gap-8">
             <Button
               variant="ghost"
               className="text-blue-800 hover:text-blue-600"
@@ -187,7 +187,7 @@ export default function JobDashboard() {
             >
               Contact
             </Button>
-          </nav>
+          </nav> */}
         </div>
       </header>
 
@@ -227,127 +227,130 @@ export default function JobDashboard() {
                     {editingJob ? "Edit Job" : "Add New Job"}
                   </DialogTitle>
                 </DialogHeader>
-                <form onSubmit={(e) => {
-                  e.preventDefault();
-                  const formData = new FormData(e.currentTarget);
-                  handleSubmit(formData);
-                }}
-                  className="space-y-4">
-                  <div>
-                    <Label htmlFor="title">Job Title</Label>
-                    <Input
-                      id="title"
-                      name="title"
-                      defaultValue={editingJob?.title}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="company">Company</Label>
-                    <Input
-                      id="company"
-                      name="company"
-                      defaultValue={editingJob?.company}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="location">Location</Label>
-                    <Input
-                      id="location"
-                      name="location"
-                      defaultValue={editingJob?.location}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="followUpEmail">Follow-up Email</Label>
-                    <Input
-                      id="followUpEmail"
-                      name="followUpEmail"
-                      type="email"
-                      defaultValue={editingJob?.followUpEmail}
-                      placeholder="hr@company.com"
-                    />
-                  </div>
+                <div className="max-h-[80vh] overflow-y-auto p-4">
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    handleSubmit(formData);
+                  }}
+                    className="space-y-4">
+                    <div>
+                      <Label htmlFor="title">Job Title</Label>
+                      <Input
+                        id="title"
+                        name="title"
+                        defaultValue={editingJob?.title}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="company">Company</Label>
+                      <Input
+                        id="company"
+                        name="company"
+                        defaultValue={editingJob?.company}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="location">Location</Label>
+                      <Input
+                        id="location"
+                        name="location"
+                        defaultValue={editingJob?.location}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="followUpEmail">Follow-up Email</Label>
+                      <Input
+                        id="followUpEmail"
+                        name="followUpEmail"
+                        type="email"
+                        defaultValue={editingJob?.followUpEmail}
+                        placeholder="hr@company.com"
+                      />
+                    </div>
 
-                  <div>
-                    <Label htmlFor="followUpMessage">Message</Label>
-                    <Textarea
-                      id="followUpMessage"
-                      name="followUpMessage"
-                      defaultValue={editingJob?.followUpMessage || ""}
-                      placeholder="Hi, just following up on my application..."
-                    />
-                  </div>
+                    <div>
+                      <Label htmlFor="followUpMessage">Message</Label>
+                      <Textarea
+                        id="followUpMessage"
+                        name="followUpMessage"
+                        defaultValue={editingJob?.followUpMessage || ""}
+                        placeholder="Hi, just following up on my application..."
+                      />
+                    </div>
 
-                  <div>
-                    <Label htmlFor="followUpDate">Schedule Date & Time</Label>
-                    <Input
-                      id="followUpDate"
-                      name="followUpDate"
-                      type="datetime-local"
-                      defaultValue={editingJob?.followUpDate}
-                    />
-                  </div>
+                    <div>
+                      <Label htmlFor="followUpDate">Schedule Date & Time</Label>
+                      <Input
+                        id="followUpDate"
+                        name="followUpDate"
+                        type="datetime-local"
+                        defaultValue={editingJob?.followUpDate}
+                      />
+                    </div>
 
-                  <div>
-                    <Label htmlFor="status">Status</Label>
-                    <Select
-                      name="status"
-                      defaultValue={editingJob?.status || "applied"}
+                    <div>
+                      <Label htmlFor="status">Status</Label>
+                      <Select
+                        name="status"
+                        defaultValue={editingJob?.status || "applied"}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="applied">Applied</SelectItem>
+                          <SelectItem value="interview">Interview</SelectItem>
+                          <SelectItem value="offer">Offer</SelectItem>
+                          <SelectItem value="rejected">Rejected</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="appliedDate">Applied Date</Label>
+                      <Input
+                        id="appliedDate"
+                        name="appliedDate"
+                        type="date"
+                        defaultValue={editingJob?.appliedDate}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="source">Source</Label>
+                      <Select
+                        name="source"
+                        defaultValue={editingJob?.source || "manual"}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="manual">Manual Entry</SelectItem>
+                          <SelectItem value="portal">Job Portal</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="notes">Notes</Label>
+                      <Textarea
+                        id="notes"
+                        name="notes"
+                        defaultValue={editingJob?.notes}
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full bg-blue-600 hover:bg-blue-700"
                     >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="applied">Applied</SelectItem>
-                        <SelectItem value="interview">Interview</SelectItem>
-                        <SelectItem value="offer">Offer</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="appliedDate">Applied Date</Label>
-                    <Input
-                      id="appliedDate"
-                      name="appliedDate"
-                      type="date"
-                      defaultValue={editingJob?.appliedDate}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="source">Source</Label>
-                    <Select
-                      name="source"
-                      defaultValue={editingJob?.source || "manual"}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="manual">Manual Entry</SelectItem>
-                        <SelectItem value="portal">Job Portal</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="notes">Notes</Label>
-                    <Textarea
-                      id="notes"
-                      name="notes"
-                      defaultValue={editingJob?.notes}
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700"
-                  >
-                    {editingJob ? "Update Job" : "Add Job"}
-                  </Button>
-                </form>
+                      {editingJob ? "Update Job" : "Add Job"}
+                    </Button>
+                  </form>
+                </div>
+
               </DialogContent>
             </Dialog>
           </div>
